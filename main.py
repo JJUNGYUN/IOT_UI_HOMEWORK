@@ -5,7 +5,8 @@ from curses import *
 def main():
     window = curses.initscr()
     noecho()
-    cbreak()
+    curs_set(0)
+    #cbreak()
     window.keypad(True)
     start_color()
     init_pair(1, COLOR_WHITE, COLOR_BLACK)

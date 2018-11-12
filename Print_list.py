@@ -38,27 +38,29 @@ class Print_list(object,metaclass=ABCMeta):
     def print_list(self):
         pass
 
+    def get_key(self):
+        self.key = self.window.getch()
+
     def move_curse(self,len):
-        key = self.window.getch()
-        if key == KEY_DOWN:
+        if self.key == KEY_DOWN:
             if self.now<len:
                 self.now += 1
             else:
                 self.now = 0
             self.print_list()
-        elif key ==KEY_UP:
+        elif self.key ==KEY_UP:
             if self.now > 0:
                 self.now -= 1
             else:
                 self.now = len
             self.print_list()
-        elif key == 10:
+        elif self.key == 10:
             self.enter_event()
-        elif key == ord('q') or key == ord('Q'):
+        elif self.key == ord('q') or self.key == ord('Q'):
             self.quit_event()
-        elif key == ord('p') or key == ord('P'):
+        elif self.key == ord('p') or self.key == ord('P'):
             self.append_event()
-        elif key == 27:
+        elif self.key == 27:
             return False
         else:
             self.print_list()

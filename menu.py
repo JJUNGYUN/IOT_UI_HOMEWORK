@@ -1,6 +1,7 @@
 import curses
 from curses import *
 from abc import *
+import threading, time ,datetime
 class menu(object,metaclass=ABCMeta):
     list = []
 
@@ -10,6 +11,7 @@ class menu(object,metaclass=ABCMeta):
         self.maxy, self.maxx = self.window.getmaxyx()
         self.print_list()
 
+
     @classmethod
     def menu(cls):
         return cls()
@@ -18,35 +20,47 @@ class menu(object,metaclass=ABCMeta):
     def go_next(self):
         pass
 
+    def get_key(self):
+        self.print = 2
+        self.key = self.window.getch()
     def move_curse(self):
-        key = self.window.getch()
-        if key == KEY_DOWN:
+        if self.key == KEY_DOWN:
             if self.now<len(self.list)-1:
                 self.now += 1
             self.print_list()
-        elif key == KEY_UP:
+        elif self.key == KEY_UP:
             if self.now > 0:
                 self.now -= 1
             self.print_list()
-        elif key == 10:
+        elif self.key == 10:
             self.go_next()
         else:
             self.print_list()
 
     def print_list(self):
+        t1 = threading.Thread(target=self.get_key, args=())
+        t1.start()
         self.window.erase()
-        for i,j in enumerate(self.list):
+        for i, j in enumerate(self.list):
             if i == self.now:
-                self.window.addstr(str(i+1)+". "+j+"\n",color_pair(2))
+                self.window.addstr(str(i + 1) + ". " + j + "\n", color_pair(2))
             else:
-                self.window.addstr(str(i+1)+". "+j+"\n",color_pair(1))
-
-        explain = newwin(1, self.maxx - 1, self.maxy - 1, 0)
-        explain.addstr("↑,↓ : Move menu / Enter : Select", A_BOLD+color_pair(3))
+                self.window.addstr(str(i + 1) + ". " + j + "\n", color_pair(1))
 
         self.window.refresh()
-        explain.refresh()
-        self.move_curse()
 
+
+        while(t1.isAlive()):
+
+            explain = newwin(1, self.maxx - 1, self.maxy - 1, 0)
+            explain.addstr("↑,↓ : Move menu / Enter : Select", A_BOLD + color_pair(3))
+            now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            timewin = newwin(1, 20, 0, self.maxx - 21)
+            timewin.addstr(str(now), A_BOLD + color_pair(3))
+            timewin.refresh()
+            explain.refresh()
+            #time.sleep(0.3)
+            #self.move_curse()
+        self.move_curse()
         return 0
 

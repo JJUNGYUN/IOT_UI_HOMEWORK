@@ -1,6 +1,13 @@
-import json
-import pandas as pd
+import threading, time ,datetime
 
-Room = pd.read_json('project.json')
+def pd():
+    x = input()
+    return x
 
-print(Room["Inner Room"].Value)
+t1 = threading.Thread(target=pd,args=())
+x= t1.start()
+while(t1.isAlive()):
+    print(t1.isAlive())
+    time.sleep(1)
+
+print(x)
