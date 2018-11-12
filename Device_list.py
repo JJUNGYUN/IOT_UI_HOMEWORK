@@ -11,9 +11,8 @@ class Device_list(Print_list):
         self.print_list()
 
     def quit_event(self):
-        main = main_menu.main_menu().menu()
+        main = main_menu.main_menu(window=self.window)
         main.print_list()
-        endwin()
 
     def print_list(self):
         all_cnt = 0
@@ -39,5 +38,4 @@ class Device_list(Print_list):
         self.window.refresh()
         explain.refresh()
         self.move_curse(all_cnt-1)
-        endwin()
-        return 0;
+        return 0

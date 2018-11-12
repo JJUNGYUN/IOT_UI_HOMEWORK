@@ -7,9 +7,12 @@ class Print_list(object,metaclass=ABCMeta):
 
     list = {}
 
-    def __init__(self):
+    def __init__(self,window):
         self.load_json()
-        self.curses_init()
+        self.window= window
+        init_pair(4, COLOR_CYAN, COLOR_BLACK)
+        self.now = 0
+        self.maxy, self.maxx = self.window.getmaxyx()
 
     def load_json(self):
         json = pd.read_json('project.json')
@@ -18,17 +21,6 @@ class Print_list(object,metaclass=ABCMeta):
         for i in range(len(self.list)):
             self.showTF.append(False)
 
-    def curses_init(self):
-        self.window = curses.initscr()
-        noecho()
-        self.window.keypad(True)
-        start_color()
-        init_pair(1,COLOR_WHITE,COLOR_BLACK)
-        init_pair(2,COLOR_YELLOW,COLOR_BLACK)
-        init_pair(3,COLOR_RED,COLOR_BLACK)
-        init_pair(4,COLOR_CYAN,COLOR_BLACK)
-        self.now = 0
-        self.maxy, self.maxx = self.window.getmaxyx()
 
     @abstractmethod
     def enter_event(self):

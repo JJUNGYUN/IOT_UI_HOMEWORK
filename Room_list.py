@@ -1,33 +1,27 @@
 from device_append import *
 from Append_Room import Append_room
-from main_menu import main_menu
+import main_menu
 from Print_list import Print_list
 
 class Room_list(Print_list):
 
-
     def enter_event(self):
         if self.now == len(self.list):
-            append = Append_room()
+            append = Append_room(self.window)
             append.append_menu()
-            endwin()
-            return False
         elif self.showTF[self.now]:
             self.showTF[self.now] = False
         else:
             self.showTF[self.now] = True
         self.print_list()
 
-
     def append_event(self):
-        append_menu = device_append(list(self.list.keys())[self.now])
+        append_menu = device_append(list(self.list.keys())[self.now],self.window)
         append_menu.print_list()
-        endwin()
 
     def quit_event(self):
-        main = main_menu().menu()
+        main = main_menu.main_menu(self.window)
         main.print_list()
-        endwin()
 
     def print_list(self):
         self.window.erase()
@@ -55,5 +49,5 @@ class Room_list(Print_list):
         self.window.refresh()
         explain.refresh()
         self.move_curse(len(self.list))
-        endwin()
-        return 0;
+
+        return 0
