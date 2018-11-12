@@ -4,7 +4,9 @@ from abc import *
 import pandas as pd
 class append(object,metaclass=ABCMeta):
     defalut = {}
-    def __init__(self):
+
+    def __init__(self,window):
+        self.window = window
         echo()
         self.read_json()
 
@@ -25,16 +27,30 @@ class append(object,metaclass=ABCMeta):
         temp = []
         while (running):
             key = self.window.getch()
+
+
             if key == 10:
                 running = False
                 break
             if key == 8:
-                nowy,nowx = self.window.getyx()
+                nowy, nowx = self.window.getyx()
+                if len(temp) == 0:
+                    self.window.move(nowy, nowx + 1)
+                    continue
                 self.window.addstr(" ")
                 self.window.move(nowy, nowx)
                 temp.pop()
                 self.window.refresh()
                 continue
             temp.append(chr(key))
+            if len(temp) > 20:
+                nowy, nowx = self.window.getyx()
+                self.window.move(nowy, nowx-1)
+                self.window.addstr(" ")
+                self.window.move(nowy, nowx-1)
+                self.window.refresh()
+                temp.pop()
+
+        noecho()
         return ''.join(temp)
 

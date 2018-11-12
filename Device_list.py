@@ -1,6 +1,7 @@
 from Print_list import Print_list
 from Print_list import *
 import main_menu
+import threading, time ,datetime
 
 class Device_list(Print_list):
 
@@ -11,12 +12,13 @@ class Device_list(Print_list):
         self.print_list()
 
     def quit_event(self):
-        main = main_menu.main_menu().menu()
+        main = main_menu.main_menu(window=self.window)
         main.print_list()
-        endwin()
 
     def print_list(self):
         all_cnt = 0
+        t1 = threading.Thread(target=self.get_key, args=())
+        t1.start()
         self.window.erase()
         self.window.addstr('No\t   Name \t Kind   \t Condition \t Room\n', color_pair(4))
         for i,j in enumerate(self.list):
@@ -31,13 +33,19 @@ class Device_list(Print_list):
                                                                    device['Condition'].ljust(15),j,device['Kind'].ljust(15)),
                     color_pair(1))
                 all_cnt +=1
-
-        explain = newwin(1, self.maxx - 1, self.maxy - 1, 0)
-        explain.addstr("↑,↓ : Move menu / q , Q : Previous page",
-                       A_BOLD + color_pair(3))
-
         self.window.refresh()
-        explain.refresh()
+        while (t1.isAlive()):
+            now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            timewin = newwin(1, 20, 0, self.maxx - 21)
+            timewin.addstr(str(now), A_BOLD + color_pair(3))
+            explain = newwin(1, self.maxx - 1, self.maxy - 1, 0)
+            explain.addstr(
+                "↑,↓ : Move menu / Enter : Show Select Device / q , Q : Previous page / p, P : Append device",
+                A_BOLD + color_pair(3))
+
+            timewin.refresh()
+            explain.refresh()
+
+        #self.move_curse()
         self.move_curse(all_cnt-1)
-        endwin()
-        return 0;
+        return 0
