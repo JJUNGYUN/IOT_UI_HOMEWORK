@@ -1,6 +1,6 @@
-import main_menu
 import curses
 from curses import *
+from Print.main import main_menu
 
 def main():
     window = curses.initscr()
@@ -12,7 +12,7 @@ def main():
     init_pair(1, COLOR_WHITE, COLOR_BLACK)
     init_pair(2, COLOR_YELLOW, COLOR_BLACK)
     init_pair(3, COLOR_RED, COLOR_BLACK)
-    main_menu.main_menu(window=window)
+    main_menu(window)
 
 if __name__=='__main__':
     x = main()

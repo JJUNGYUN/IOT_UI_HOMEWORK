@@ -1,28 +1,31 @@
-from device_append import *
-from Append_Room import Append_room
-import main_menu
-from Print_list import Print_list
 import threading, time ,datetime
+from Print.list import _list
+from Append.room import room
+from curses import *
+from Print.append import device_append
 
-class Room_list(Print_list):
+class Room(_list):
 
     def enter_event(self):
         if self.now == len(self.list):
-            append = Append_room(self.window)
+            self.window.addstr("Name : ")
+            append = room(self.window)
             append.append_menu()
+            self.load_json()
         elif self.showTF[self.now]:
             self.showTF[self.now] = False
         else:
             self.showTF[self.now] = True
+
         self.print_list()
 
     def append_event(self):
-        append_menu = device_append(list(self.list.keys())[self.now],self.window)
-        append_menu.print_list()
+        device_append(list(self.list.keys())[self.now],self.window)
+        self.load_json()
+        self.print_list()
 
     def quit_event(self):
-        main = main_menu.main_menu(self.window)
-        main.print_list()
+        return True
 
     def print_list(self):
         t1 = threading.Thread(target=self.get_key, args=())

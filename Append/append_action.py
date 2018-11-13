@@ -1,4 +1,3 @@
-import curses
 from curses import *
 from abc import *
 import pandas as pd
