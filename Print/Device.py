@@ -1,9 +1,7 @@
-from Print_list import Print_list
-from Print_list import *
-import main_menu
 import threading, time ,datetime
-
-class Device_list(Print_list):
+from Print.list import _list
+from curses import *
+class Device(_list):
 
     def enter_event(self):
         self.print_list()
@@ -12,8 +10,7 @@ class Device_list(Print_list):
         self.print_list()
 
     def quit_event(self):
-        main = main_menu.main_menu(window=self.window)
-        main.print_list()
+        return True
 
     def print_list(self):
         all_cnt = 0
@@ -40,7 +37,7 @@ class Device_list(Print_list):
             timewin.addstr(str(now), A_BOLD + color_pair(3))
             explain = newwin(1, self.maxx - 1, self.maxy - 1, 0)
             explain.addstr(
-                "↑,↓ : Move menu / Enter : Show Select Device / q , Q : Previous page / p, P : Append device",
+                "↑,↓ : Move menu / Enter : Show Select Device / q , Q : Previous page ",
                 A_BOLD + color_pair(3))
 
             timewin.refresh()

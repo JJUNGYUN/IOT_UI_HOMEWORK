@@ -12,17 +12,13 @@ class menu(object,metaclass=ABCMeta):
         self.print_list()
 
 
-    @classmethod
-    def menu(cls):
-        return cls()
-
     @abstractmethod
     def go_next(self):
         pass
 
     def get_key(self):
-        self.print = 2
         self.key = self.window.getch()
+
     def move_curse(self):
         if self.key == KEY_DOWN:
             if self.now<len(self.list)-1:
@@ -51,7 +47,6 @@ class menu(object,metaclass=ABCMeta):
 
 
         while(t1.isAlive()):
-
             explain = newwin(1, self.maxx - 1, self.maxy - 1, 0)
             explain.addstr("↑,↓ : Move menu / Enter : Select", A_BOLD + color_pair(3))
             now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')

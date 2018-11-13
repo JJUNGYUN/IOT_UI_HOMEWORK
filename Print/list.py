@@ -3,7 +3,7 @@ from curses import *
 import pandas as pd
 from abc import *
 
-class Print_list(object,metaclass=ABCMeta):
+class _list(object,metaclass=ABCMeta):
 
     list = {}
 
@@ -20,7 +20,6 @@ class Print_list(object,metaclass=ABCMeta):
         self.showTF = []
         for i in range(len(self.list)):
             self.showTF.append(False)
-
 
     @abstractmethod
     def enter_event(self):

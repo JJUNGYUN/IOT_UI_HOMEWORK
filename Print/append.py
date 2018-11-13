@@ -1,12 +1,9 @@
-from curses import *
-import curses
-from append import append
-from Append_actuator import *
-from Append_sensor import *
-from menu import menu
+from Print.menu import  menu
+from Append.Sensor import Append_sensor
+from Append.Actuator import Append_actuator
 
 class device_append(menu):
-    list = ['Actuator','Sensor']
+    list = ['Actuator','Sensor','exit']
 
     def __init__(self,Room_name,window):
         self.Room_name = Room_name
@@ -23,8 +20,6 @@ class device_append(menu):
         elif self.now == 1:
             sensor = Append_sensor(self.window)
             sensor.append_menu(self.Room_name)
-
-
-
-
+        elif self.now == 2:
+            return True
 
