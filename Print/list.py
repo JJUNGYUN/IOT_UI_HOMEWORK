@@ -13,6 +13,7 @@ class _list(object,metaclass=ABCMeta):
         init_pair(4, COLOR_CYAN, COLOR_BLACK)
         self.now = 0
         self.maxy, self.maxx = self.window.getmaxyx()
+        self.now_svl = 0
 
     def load_json(self):
         json = pd.read_json('project.json')
@@ -43,14 +44,21 @@ class _list(object,metaclass=ABCMeta):
     def move_curse(self,len):
         if self.key == KEY_DOWN:
             if self.now<len:
+                self.now_svl += 1
                 self.now += 1
             else:
+                self.now_svl =0
                 self.now = 0
             self.print_list()
         elif self.key ==KEY_UP:
             if self.now > 0:
+                self.now_svl -= 1
                 self.now -= 1
             else:
+                if len-self.maxy+4 < 0:
+                    self.now_svl = 0
+                else:
+                    self.now_svl = len+1
                 self.now = len
             self.print_list()
         elif self.key == 10:

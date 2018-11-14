@@ -3,7 +3,7 @@ from Print.list import _list
 from Append.room import room
 from curses import *
 from Print.append import device_append
-
+from Print.Room_device import Room_device
 class Room(_list):
 
     def enter_event(self):
@@ -12,10 +12,9 @@ class Room(_list):
             append = room(self.window)
             append.append_menu()
             self.load_json()
-        elif self.showTF[self.now]:
-            self.showTF[self.now] = False
-        else:
+        elif self.showTF[self.now] == False:
             self.showTF[self.now] = True
+
 
         self.print_list()
 
@@ -29,33 +28,34 @@ class Room(_list):
 
     def print_list(self):
         t1 = threading.Thread(target=self.get_key, args=())
-        t1.start()
+
+
+        for i,j in enumerate(self.list):
+            if self.showTF[i]:
+                room_device = Room_device(self.window, j)
+                room_device.print_list()
+                self.showTF[i] = False
         self.window.erase()
         self.window.addstr('No\tName\t\tDevice Count\n', color_pair(4))
+
         for i, j in enumerate(self.list):
-            if i == self.now:
-                self.window.addstr(
-                    "{0} {1} {2} \n".format(str(i + 1).rjust(3).ljust(8), j.ljust(15), self.list[j]['dcnt']),
-                    color_pair(2))
-                if self.showTF[i]:
-                    for device in self.list[j]['Device']:
-                        self.window.addstr(
-                            "\t     {0} {1} {2} \n".format(device['name'].ljust(15), device['Kind'].ljust(15),
-                                                           device['Condition']), color_pair(3) + A_BOLD)
-            else:
-                self.window.addstr("{0} {1} {2} \n".format(str(i + 1).ljust(6), j.ljust(15), self.list[j]['dcnt']),
-                                   color_pair(1))
-                if self.showTF[i]:
-                    for device in self.list[j]['Device']:
-                        self.window.addstr(
-                            "\t   {0} {1} {2} \n".format(device['name'].ljust(15), device['Kind'].ljust(15),
-                                                         device['Condition']), color_pair(3))
+            try:
+                if i == self.now:
+                    self.window.addstr(
+                        "{0} {1} {2} \n".format(str(i + 1).rjust(3).ljust(8), j.ljust(15), self.list[j]['dcnt']),
+                        color_pair(2))
+
+                else:
+                    self.window.addstr("{0} {1} {2} \n".format(str(i + 1).ljust(6), j.ljust(15), self.list[j]['dcnt']),
+                                       color_pair(1))
+            except:
+                continue
         if len(self.list) == self.now:
             self.window.addstr("\t +Append Room+\n", color_pair(2))
         else:
             self.window.addstr("\t +Append Room+\n", color_pair(1))
 
-
+        t1.start()
         self.window.refresh()
         while (t1.isAlive()):
             now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
