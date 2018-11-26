@@ -1,12 +1,13 @@
 from Append.append_action import append
 
 class Append_actuator(append):
-    defalut = {"name":"","Kind":"Actuator","Condition":"OFF"}
 
-    def append_menu(self,Room_name):
+    def append_menu(self,Room_name,type):
         self.window.addstr("Name : ")
+
         self.name = self.read_ch()
-        self.defalut["name"] = self.name
-        self.list[Room_name]['Device'].append(self.defalut)
+        self.default['Actuator'][type]["name"] = self.name
+        self.default['Actuator'][type]["ON/OFF"] = ["OFF"]
+        self.list[Room_name]['Device'].append(self.default['Actuator'][type])
         self.list[Room_name]['dcnt'] = len(self.list[Room_name]['Device'])
         self.save_json()

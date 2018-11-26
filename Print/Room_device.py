@@ -2,6 +2,7 @@ from Print.list import _list
 from curses import *
 import threading, time ,datetime
 from Print.append import device_append
+from Print import device_format
 class Room_device(_list):
 
     def __init__(self, window,Room_name):
@@ -12,19 +13,41 @@ class Room_device(_list):
         self.now = 0
         self.maxy, self.maxx = self.window.getmaxyx()
         self.now_svl = 0
+        self.showTF = []
+        for i in range(len(self.list[self.Room_name]['Device'])):
+            self.showTF.append(False)
 
     def enter_event(self):
-        device_append(self.Room_name, self.window)
-        self.load_json()
+        if self.now == len(self.list[self.Room_name]['Device']):
+            device_append(self.Room_name, self.window).print_list()
+            self.load_json()
+            self.showTF = []
+            for i in range(len(self.list[self.Room_name]['Device'])):
+                self.showTF.append(False)
+        else:
+            if self.showTF[self.now] == True:
+                self.showTF[self.now] = False
+            else:
+                self.showTF[self.now] = True
         self.print_list()
 
     def append_event(self):
-        device_append(list(self.list.keys())[self.now],self.window)
-        self.load_json()
+        #device_append(list(self.list.keys())[self.now],self.window)
+        #self.load_json()
         self.print_list()
 
     def quit_event(self):
         return True
+
+    def print_all(self,device):
+        if 'Sensor' in device['Kind']:
+            self.window.addstr(device_format.sensor(device), color_pair(3))
+        elif 'TV' in device['Kind']:
+            self.window.addstr(device_format.Tv(device), color_pair(3))
+        elif 'Fan' in device['Kind']:
+            self.window.addstr(device_format.Fan(device), color_pair(3))
+        elif 'Light' in device['Kind']:
+            self.window.addstr(device_format.Light(device), color_pair(3))
 
     def print_list(self):
         all_cnt = 0
@@ -34,7 +57,7 @@ class Room_device(_list):
         max_v_len = self.maxy - 5
         v_cnt = 0
         self.window.erase()
-        self.window.addstr('No\t   Name \t Kind   \t Condition \t Room\n', color_pair(4))
+        self.window.addstr('No\tName \t\t Kind\n', color_pair(4))
         for i, device in enumerate(self.list[self.Room_name]['Device']):
             all_cnt += 1
             if v_len > 0:
@@ -44,14 +67,15 @@ class Room_device(_list):
                 continue
             if all_cnt - 1 == self.now:
                 # No devicename Roomname Condition
-                self.window.addstr("{0} {1} {4} {2} {3} \n".format(str(i + 1).rjust(3).ljust(8), device['name'].ljust(15),
-                                                                   device['Condition'].ljust(15), self.Room_name,
-                                                                   device['Kind'].ljust(15)), color_pair(2))
+                self.window.addstr("{0} {1} {2} \n".format(str(i + 1).rjust(3).ljust(8), device['name'].ljust(15),
+                                                           device['Kind'].ljust(15)), color_pair(2))
+                if self.showTF[i] == True:
+                    self.print_all(device)
             else:
-                self.window.addstr(
-                    "{0} {1} {4} {2} {3} \n".format(str(i + 1).ljust(6), device['name'].ljust(15),
-                                                    device['Condition'].ljust(15), self.Room_name, device['Kind'].ljust(15)),
-                    color_pair(1))
+                self.window.addstr("{0} {1} {2} \n".format(str(i + 1).ljust(6), device['name'].ljust(15),device['Kind'].ljust(15))
+                                   ,color_pair(1))
+                if self.showTF[i] == True:
+                    self.print_all(device)
             v_cnt += 1
 
         if len(self.list[self.Room_name]['Device']) == self.now:

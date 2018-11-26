@@ -2,6 +2,7 @@ import curses
 from curses import *
 from abc import *
 import threading, time ,datetime
+import random
 class menu(object,metaclass=ABCMeta):
     list = []
 
@@ -50,7 +51,7 @@ class menu(object,metaclass=ABCMeta):
             explain = newwin(1, self.maxx - 1, self.maxy - 1, 0)
             explain.addstr("↑,↓ : Move menu / Enter : Select", A_BOLD + color_pair(3))
             now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            timewin = newwin(1, 20, 0, self.maxx - 21)
+            timewin = newwin(1, 20, 0, self.maxx - 20)
             timewin.addstr(str(now), A_BOLD + color_pair(3))
             timewin.refresh()
             explain.refresh()

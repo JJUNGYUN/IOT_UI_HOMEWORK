@@ -20,7 +20,7 @@ class Device(_list):
         max_v_len = self.maxy-5
         v_cnt = 0
         self.window.erase()
-        self.window.addstr('No\t   Name \t Kind   \t Condition \t Room\n', color_pair(4))
+        self.window.addstr('Room\tName \t\t Kind\n', color_pair(4))
         for i,j in enumerate(self.list):
             for device in self.list[j]['Device']:
                 all_cnt += 1
@@ -29,15 +29,16 @@ class Device(_list):
                     continue
                 if v_cnt > max_v_len+1:
                     continue
-                if all_cnt-1 == self.now:
-                    #No devicename Roomname Condition
-                    self.window.addstr("{0} {1} {4} {2} {3} \n".format(str(i+1).rjust(3).ljust(8),device['name'].ljust(15),
-                                                                   device['Condition'].ljust(15),j,device['Kind'].ljust(15)),color_pair(2))
+                if all_cnt - 1 == self.now:
+                    # No devicename Roomname Condition
+                    # {"name": "", "Kind": "Sensor/Temperature", "state": 0, "measure": "C"}
+                    self.window.addstr("{0} {1} {2} \n".format(j.rjust(3).ljust(8), device['name'].ljust(15),
+                                                               device['Kind'].ljust(15)), color_pair(2))
                 else:
                     self.window.addstr(
-                        "{0} {1} {4} {2} {3} \n".format(str(i+1).ljust(6),device['name'].ljust(15),
-                                                                   device['Condition'].ljust(15),j,device['Kind'].ljust(15)),
-                    color_pair(1))
+                        "{0} {1} {2} \n".format(j.ljust(6), device['name'].ljust(15),
+                                                device['Kind'].ljust(15)),
+                        color_pair(1))
                 v_cnt +=1
 
 

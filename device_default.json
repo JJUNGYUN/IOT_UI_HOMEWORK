@@ -1,0 +1,12 @@
+{
+  "Actuator":{
+  "TV":{"name":"","Kind":"Actuator/TV","Chanel":0,"Sound":0,"ON/OFF":["OFF","ON"]},
+  "Light":{"name":"","Kind":"Actuator/Light","ON/OFF":["OFF","ON"]},
+  "Fan":{"name":"","Kind":"Actuator/Fan","intensity":0,"ON/OFF":["OFF","ON"]}
+  },
+  "Sensor":{
+    "Temperature":{"name":"","Kind":"Sensor/Temperature","state":0,"measure":"C"},
+    "Humidity":{"name":"","Kind":"Sensor/Humidity","state":0,"measure":"%"},
+    "Illuminance":{"name":"","Kind":"Sensor/Illuminance","state":0,"measure":"lx"}
+  }
+}

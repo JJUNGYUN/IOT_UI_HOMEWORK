@@ -2,7 +2,6 @@ from curses import *
 from abc import *
 import pandas as pd
 class append(object,metaclass=ABCMeta):
-    defalut = {}
 
     def __init__(self,window):
         self.window = window
@@ -11,11 +10,11 @@ class append(object,metaclass=ABCMeta):
 
     def read_json(self):
         json = pd.read_json('project.json')
+        self.default = pd.read_json('device_default.json').to_dict()
         self.list = json.to_dict()
 
-    @classmethod
     @abstractmethod
-    def append_menu(cls):
+    def append_menu(self,Room_name,type):
         pass
 
     def save_json(self):
