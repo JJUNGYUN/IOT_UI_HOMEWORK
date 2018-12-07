@@ -68,7 +68,7 @@ class Room_device(_list):
             if all_cnt - 1 == self.now:
                 # No devicename Roomname Condition
                 self.window.addstr("{0} {1} {2} \n".format(str(i + 1).rjust(3).ljust(8), device['name'].ljust(15),
-                                                           device['Kind'].ljust(15)), color_pair(2))
+                                           device['Kind'].ljust(15)), color_pair(2))
                 if self.showTF[i] == True:
                     self.print_all(device)
             else:

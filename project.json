@@ -33,6 +33,39 @@
                         "name":"\u0102q",
                         "Kind":"Sensor\/Temperature",
                         "state":0,"measure":"C"
+                    },
+          {
+                        "name":"asdfb",
+                        "Kind":"Actuator\/Light",
+                        "ON\/OFF":["OFF"]
+                    },
+                    {
+                        "name":"",
+                        "Kind":"Sensor\/Humidity",
+                        "state":0,
+                        "measure":"%"
+                    },
+                    {
+                        "name":"\u0104qqss",
+                        "Kind":"Sensor\/Temperature",
+                        "state":0,
+                        "measure":"C"
+                    },
+                    {
+                        "name":"asffv",
+                        "Kind":"Actuator\/Light",
+                        "ON\/OFF":["OFF"]
+                    },
+                    {
+                        "name":"q",
+                        "Kind":"Actuator\/TV",
+                        "Chanel":0,"Sound":0,
+                        "ON\/OFF":["OFF"]
+                    },
+                    {
+                        "name":"\u0102q",
+                        "Kind":"Sensor\/Temperature",
+                        "state":0,"measure":"C"
                     }
                 ],
                 "dcnt":6
